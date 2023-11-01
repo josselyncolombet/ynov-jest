@@ -1,4 +1,5 @@
 const express = require('express');
+const Task = require('./models/task');
 
 const app = express();
 app.use(express.json());
@@ -9,6 +10,14 @@ let idCounter = 1;
 app.get('/tasks', (req, res) => {
   res.send(tasks);
 });
+
+
+app.get('/mockedtasks', async (req, res) => {
+    const tasks = await Task.find();
+    res.send(tasks);
+
+});
+
 
 app.post('/tasks', (req, res) => {
   const task = { id: idCounter++, ...req.body };
