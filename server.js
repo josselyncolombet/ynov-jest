@@ -1,8 +1,14 @@
 const express = require('express');
 const Task = require('./models/task');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('js-yaml');
+const fs = require('fs');
 
 const app = express();
 app.use(express.json());
+
+const swaggerDocument = YAML.load(fs.readFileSync('./openapi.yaml', 'utf8'));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const tasks = [];
 let idCounter = 1;
